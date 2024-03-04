@@ -31,6 +31,26 @@ jobs:
       #     which devcontainer
       #     devcontainer --version
 
+      - name: Checkout Action
+        uses: actions/checkout@v4
+        with:
+          repository: 'devcontainers/ci'
+          ref: 'main'
+          path: 'devcontainer-ci'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Compile GH action
+        run: |
+          node --version
+          npm --version
+          echo "** Installing and building common..."
+          (cd common && npm install && npm run build)
+          (cd common && npm run tsc_version)
+          echo "** Installing and building github-action..."
+          (cd github-action/ && npm install && npm run build && npm run package)
+        working-directory: ./devcontainer-ci
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -63,7 +83,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: devcontainers/ci@v0.3
+        uses: ./devcontainer-ci # devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/${{ github.repository }}/devcontainer
           imageTag: latest
