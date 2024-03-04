@@ -87,5 +87,5 @@ jobs:
         with:
           imageName: ghcr.io/${{ github.repository }}/devcontainer
           imageTag:  testing, ${{ github.sha }}, latest 
-          platform: linux/amd64,linux/arm64
+          platform: linux/amd64, linux/arm64
           push: always
