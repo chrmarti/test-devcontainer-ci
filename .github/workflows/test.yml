@@ -16,20 +16,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: Checkout CLI
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: 'devcontainers/cli'
-      #     ref: 'chrmarti/unlikely-bass'
-      #     path: 'devcontainer-cli'
-      # - name: Install CLI
-      #   run: |
-      #     cd devcontainer-cli
-      #     yarn
-      #     yarn package
-      #     npm i -g devcontainers-cli-*.tgz
-      #     which devcontainer
-      #     devcontainer --version
+      - name: Checkout CLI
+        uses: actions/checkout@v4
+        with:
+          repository: 'devcontainers/cli'
+          ref: 'chrmarti/comparable-lamprey'
+          path: 'devcontainer-cli'
+      - name: Install CLI
+        run: |
+          cd devcontainer-cli
+          yarn
+          yarn package
+          npm i -g devcontainers-cli-*.tgz
+          which devcontainer
+          devcontainer --version
 
       # - name: Checkout Action
       #   uses: actions/checkout@v4
