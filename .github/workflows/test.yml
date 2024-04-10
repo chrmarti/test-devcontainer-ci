@@ -33,6 +33,9 @@ jobs:
           (cd github-action/ && npm install && npm run build && npm run package && cd ..)
         working-directory: ./devcontainer-ci
 
+      - name: Setup Docker
+        run: "& $Env:ProgramFiles\\Docker\\Docker\\DockerCli.exe -SwitchDaemon"
+
       - name: Run Dev Container
         uses: ./devcontainer-ci # devcontainers/ci@v0.3
         with:
