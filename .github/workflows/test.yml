@@ -6,91 +6,100 @@ on:
       - '**'
 
 jobs:
-  publish-devcontainer:
-    name: Publish devcontainer
+  run-devcontainer:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # - name: Checkout CLI
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: 'devcontainers/cli'
-      #     ref: 'chrmarti/comparable-lamprey'
-      #     path: 'devcontainer-cli'
-      # - name: Install CLI
-      #   run: |
-      #     cd devcontainer-cli
-      #     yarn
-      #     yarn package
-      #     npm i -g devcontainers-cli-*.tgz
-      #     which devcontainer
-      #     devcontainer --version
-
-      # - name: Checkout Action
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: 'devcontainers/ci'
-      #     ref: 'chrmarti/driving-pelican'
-      #     path: 'devcontainer-ci'
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 20
-      # - name: Compile GH action
-      #   run: |
-      #     node --version
-      #     npm --version
-      #     echo "** Installing and building common..."
-      #     (cd common && npm install && npm run build)
-      #     (cd common && npm run tsc_version)
-      #     echo "** Installing and building github-action..."
-      #     (cd github-action/ && npm install && npm run build && npm run package)
-      #   working-directory: ./devcontainer-ci
-
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
-
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
-      #   with:
-      #     platforms: linux/amd64, linux/arm64
-
-      # - name: List builder instances
-      #   run: docker buildx ls
-
-      - name: skopeo version
-        run: |
-          skopeo --version
-      # - name: Update skopeo
-      #   run: |
-      #     REPO_URL="https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/xUbuntu_22.04"
-      #     sudo sh -c "echo 'deb ${REPO_URL}/ /' > /etc/apt/sources.list.d/skopeo.list"
-      #     curl -fsSL ${REPO_URL}/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/skopeo.gpg > /dev/null
-
-      #     sudo apt update
-      #     sudo apt install skopeo
-      #     skopeo --version
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - uses: devcontainers/ci@v0.3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          runCmd: echo HERE in the runCmd
 
-      - name: Build and push
-        uses: devcontainers/ci@v0.3 # ./devcontainer-ci
-        with:
-          imageName: ghcr.io/${{ github.repository }}/devcontainer
-          imageTag: ${{ github.sha }}, latest 
-          platform: linux/amd64, linux/arm64
-          push: always
-          # runCmd: printenv
-          # push: never
-          # env: |
-          #   TEST_DOCKER_BUILDKIT=1
-          #   TEST_SUFFIX_OVERRIDE=
+  # publish-devcontainer:
+  #   name: Publish devcontainer
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     # - name: Checkout CLI
+  #     #   uses: actions/checkout@v4
+  #     #   with:
+  #     #     repository: 'devcontainers/cli'
+  #     #     ref: 'chrmarti/comparable-lamprey'
+  #     #     path: 'devcontainer-cli'
+  #     # - name: Install CLI
+  #     #   run: |
+  #     #     cd devcontainer-cli
+  #     #     yarn
+  #     #     yarn package
+  #     #     npm i -g devcontainers-cli-*.tgz
+  #     #     which devcontainer
+  #     #     devcontainer --version
+
+  #     # - name: Checkout Action
+  #     #   uses: actions/checkout@v4
+  #     #   with:
+  #     #     repository: 'devcontainers/ci'
+  #     #     ref: 'chrmarti/driving-pelican'
+  #     #     path: 'devcontainer-ci'
+  #     # - uses: actions/setup-node@v3
+  #     #   with:
+  #     #     node-version: 20
+  #     # - name: Compile GH action
+  #     #   run: |
+  #     #     node --version
+  #     #     npm --version
+  #     #     echo "** Installing and building common..."
+  #     #     (cd common && npm install && npm run build)
+  #     #     (cd common && npm run tsc_version)
+  #     #     echo "** Installing and building github-action..."
+  #     #     (cd github-action/ && npm install && npm run build && npm run package)
+  #     #   working-directory: ./devcontainer-ci
+
+  #     # - name: Set up QEMU
+  #     #   uses: docker/setup-qemu-action@v3
+
+  #     # - name: Set up Docker Buildx
+  #     #   uses: docker/setup-buildx-action@v3
+  #     #   with:
+  #     #     platforms: linux/amd64, linux/arm64
+
+  #     # - name: List builder instances
+  #     #   run: docker buildx ls
+
+  #     - name: skopeo version
+  #       run: |
+  #         skopeo --version
+  #     # - name: Update skopeo
+  #     #   run: |
+  #     #     REPO_URL="https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/xUbuntu_22.04"
+  #     #     sudo sh -c "echo 'deb ${REPO_URL}/ /' > /etc/apt/sources.list.d/skopeo.list"
+  #     #     curl -fsSL ${REPO_URL}/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/skopeo.gpg > /dev/null
+
+  #     #     sudo apt update
+  #     #     sudo apt install skopeo
+  #     #     skopeo --version
+
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Build and push
+  #       uses: devcontainers/ci@v0.3 # ./devcontainer-ci
+  #       with:
+  #         imageName: ghcr.io/${{ github.repository }}/devcontainer
+  #         imageTag: ${{ github.sha }}, latest 
+  #         platform: linux/amd64, linux/arm64
+  #         push: always
+  #         # runCmd: printenv
+  #         # push: never
+  #         # env: |
+  #         #   TEST_DOCKER_BUILDKIT=1
+  #         #   TEST_SUFFIX_OVERRIDE=
