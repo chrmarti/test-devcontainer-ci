@@ -36,6 +36,7 @@ jobs:
       - name: Run Dev Container
         uses: ./devcontainer-ci # devcontainers/ci@v0.3
         with:
+          imageName: foobar
           runCmd: echo HERE in the runCmd
 
   # publish-devcontainer:
